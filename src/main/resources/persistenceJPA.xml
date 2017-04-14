@@ -12,7 +12,7 @@
       http://www.springframework.org/schema/tx 
       http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
-	<context:property-placeholder location="classpath:databasejpa.properties" />
+	<context:property-placeholder location="classpath:dbexample.properties" />
 
 	<context:component-scan base-package="com.wesdm.springhibernate" />
 

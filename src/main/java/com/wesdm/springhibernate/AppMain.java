@@ -9,6 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.wesdm.springhibernate.dao.EmployeeDao;
 import com.wesdm.springhibernate.model.Employee;
+import com.wesdm.springhibernate.model.EmployeeFactory;
 import com.wesdm.springhibernate.service.EmployeeService;
 
 public class AppMain {
@@ -27,35 +28,16 @@ public class AppMain {
 
 		EmployeeService service = (EmployeeService) context.getBean("employeeService");
 
-		/*
-		 * Create Employee1
-		 */
-		Employee employee1 = new Employee();
-		employee1.setName("Han Yenn");
-		employee1.setJoiningDate(new LocalDate(2010, 10, 10));
-		employee1.setSalary(new BigDecimal(10000));
-		employee1.setSsn("ssn00000001");
-
-		/*
-		 * Create Employee2
-		 */
-		Employee employee2 = new Employee();
-		employee2.setName("Dan Thomas");
-		employee2.setJoiningDate(new LocalDate(2012, 11, 11));
-		employee2.setSalary(new BigDecimal(20000));
-		employee2.setSsn("ssn00000002");
-
-		/*
-		 * Persist both Employees
-		 */
-		service.saveEmployee(employee1);
-		service.saveEmployee(employee2);
+		List<Employee> employees = EmployeeFactory.createEmployees();
+		for(Employee e : employees) {
+	        service.saveEmployee(e);
+		}
 
 
 		/*
 		 * Get all employees list from database
 		 */
-		List<Employee> employees = service.findAllEmployees();
+		employees = service.findAllEmployees();
 		for (Employee emp : employees) {
 			System.out.println(emp);
 		}
@@ -95,36 +77,17 @@ public class AppMain {
         
         //EntityManager em = ((EmployeeJpaDaoImpl)service.getDao()).getEntityManager();
  
-        /*
-         * Create Employee1
-         */
-        Employee employee1 = new Employee();
-        employee1.setName("Han Yenn");
-        employee1.setJoiningDate(new LocalDate(2010, 10, 10));
-        employee1.setSalary(new BigDecimal(10000));
-        employee1.setSsn("ssn00000001");
- 
-        /*
-         * Create Employee2
-         */
-        Employee employee2 = new Employee();
-        employee2.setName("Dan Thomas");
-        employee2.setJoiningDate(new LocalDate(2012, 11, 11));
-        employee2.setSalary(new BigDecimal(20000));
-        employee2.setSsn("ssn00000002");
- 
-        /*
-         * Persist both Employees
-         */
-        service.saveEmployee(employee1);
-        service.saveEmployee(employee2);
+		List<Employee> employees = EmployeeFactory.createEmployees();
+		for(Employee e : employees) {
+	        service.saveEmployee(e);
+		}
         
         service.findEm();
          
         /*
          * Get all employees list from database
          */
-        List<Employee> employees = service.findAllEmployees();
+        employees = service.findAllEmployees();
         for (Employee emp : employees) {
             System.out.println(emp);
         }

@@ -13,6 +13,7 @@
 		<mysql.connector.version>5.1.31</mysql.connector.version>
 		<h2.version>1.3.176</h2.version>
 		<joda-time.version>2.3</joda-time.version>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
 	</properties>
 
 	<dependencies>
@@ -48,7 +49,14 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.3.5.Final</version>
+			<version>${hibernate.version}</version>
+		</dependency>
+		
+		<!-- Log4J -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.21</version>
 		</dependency>
 
 		<!-- MySQL -->
@@ -78,6 +86,14 @@
 			<artifactId>usertype.core</artifactId>
 			<version>3.0.0.CR1</version>
 		</dependency>
+
+		<!-- Guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>SpringHibernate</finalName>
@@ -85,7 +101,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
+				<version>3.6.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
