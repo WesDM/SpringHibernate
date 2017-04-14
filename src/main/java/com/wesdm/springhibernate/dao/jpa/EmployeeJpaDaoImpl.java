@@ -24,7 +24,7 @@ import com.wesdm.springhibernate.model.Employee;
 @Repository("employeeJpaDao")
 public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 	
-	//used for lowel level sql, not portable, but more powerful than jpa create native query
+	//used for lowel level sql, not portable, but more powerful than jpa's entity manager's create (native) query methods
 	//need to merge detached object back into persistence context after updating objects with this
 	@Autowired
 	JdbcTemplate jdbcTemplate;

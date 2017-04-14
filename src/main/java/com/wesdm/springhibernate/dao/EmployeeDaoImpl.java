@@ -10,6 +10,15 @@ import org.springframework.stereotype.Repository;
 
 import com.wesdm.springhibernate.model.Employee;
 
+/**
+ * This class demonstrates using Hibernate's Session Factory to instantiate a Session object which is uses to connect
+ * to the database.  THIS IS NOT THE RECOMMENDED APPROACH as it uses Hibernate specific functionality leading to portability
+ * issue (this doesn't happen often but still a selling point to use JPA specific functionality only).  See @see EmployeeJpaDaoImpl
+ * for the recommended approach.
+ * 
+ * @author Wesley
+ *
+ */
 @Repository("employeeDao")
 public class EmployeeDaoImpl extends AbstractDao implements EmployeeDao{
  

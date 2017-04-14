@@ -18,7 +18,10 @@ public class AppMain {
 		AppMain main = new AppMain();
 		main.runWithJpaAbstraction();
 	}
-
+	
+	/**
+	 * Nonrecommended approach using Hibernate session factory directly to access DB
+	 */
 	private void runWithHibernateImpl() {
 		// AnnotationConfigApplicationContext context = new
 		// AnnotationConfigApplicationContext();
@@ -28,55 +31,30 @@ public class AppMain {
 
 		EmployeeService service = (EmployeeService) context.getBean("employeeService");
 
-		List<Employee> employees = EmployeeFactory.createEmployees();
-		for(Employee e : employees) {
-	        service.saveEmployee(e);
-		}
-
-
-		/*
-		 * Get all employees list from database
-		 */
-		employees = service.findAllEmployees();
-		for (Employee emp : employees) {
-			System.out.println(emp);
-		}
-
-		/*
-		 * delete an employee
-		 */
-		service.deleteEmployeeBySsn("ssn00000002");
-
-		/*
-		 * update an employee
-		 */
-
-		Employee employee = service.findBySsn("ssn00000001");
-		employee.setSalary(new BigDecimal(50000));  //if transaction still existed, entity would be managed, this call to setSalary is all that's need to update
-		service.updateEmployee(employee);
-
-		/*
-		 * Get all employees list from database
-		 */
-		List<Employee> employeeList = service.findAllEmployees();
-		for (Employee emp : employeeList) {
-			System.out.println(emp);
-		}
+		danceWithDB(service);
 
 		context.close();
 	}
 	
+	/**
+	 * Recommended approach using JPA's entity manager to connect to DB. Can access Hibernates Session Factory
+	 * if need be from Entity Manager unwrap(Session.class) method.
+	 */
 	private void runWithJpaAbstraction(){
 
 	    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("persistenceJPA.xml");
 
  
         EmployeeService service = (EmployeeService) context.getBean("employeeService");
-		EmployeeDao dao = (EmployeeDao) context.getBean("employeeJpaDao");
-
         
         //EntityManager em = ((EmployeeJpaDaoImpl)service.getDao()).getEntityManager();
  
+		danceWithDB(service);
+ 
+        context.close();
+    }
+
+	private void danceWithDB(EmployeeService service) {
 		List<Employee> employees = EmployeeFactory.createEmployees();
 		for(Employee e : employees) {
 	        service.saveEmployee(e);
@@ -114,7 +92,5 @@ public class AppMain {
         for (Employee emp : employeeList) {
             System.out.println(emp);
         }
- 
-        context.close();
-    }
+	}
 }
