@@ -11,7 +11,7 @@ import com.wesdm.springhibernate.dao.EmployeeDao;
 import com.wesdm.springhibernate.model.Employee;
 
 @Service("employeeService")
-@Transactional
+@Transactional				//Mark Services as transcational as opposed to DAOs
 public class EmployeeServiceImpl implements EmployeeService{
  
     @Autowired
@@ -19,11 +19,11 @@ public class EmployeeServiceImpl implements EmployeeService{
     private EmployeeDao dao;
      
     public void saveEmployee(Employee employee) {
-        dao.saveEmployee(employee);
+        dao.save(employee);
     }
  
     public List<Employee> findAllEmployees() {
-        return dao.findAllEmployees();
+        return dao.findAll();
     }
  
     public void deleteEmployeeBySsn(String ssn) {
@@ -47,6 +47,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public Employee getReference(int id) {
 		return dao.getReference(id);
+	}
+
+	@Override
+	public void delete(long id) {
+		dao.delete(id);
 	}
     
 }

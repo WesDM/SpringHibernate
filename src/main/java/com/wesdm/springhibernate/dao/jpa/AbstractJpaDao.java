@@ -9,19 +9,19 @@ public abstract class AbstractJpaDao {
 	@PersistenceContext
     private EntityManager em;
 	
-	public EntityManager getEntityManager() {
+	protected EntityManager getEntityManager() {
 		return em;
 	}
 	
-	public void persist(Object obj){
+	protected void persist(Object obj){
 		getEntityManager().persist(obj);
 	}
 	
-	public void delete(Object obj) {
+	protected void delete(Object obj) {
 		getEntityManager().remove(obj);
 	}
 	
-	public Session getSession() {
+	protected Session getSession() {
 		return getEntityManager().unwrap(Session.class);
 	}
 }

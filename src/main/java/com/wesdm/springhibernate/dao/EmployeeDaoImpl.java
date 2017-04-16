@@ -13,7 +13,7 @@ import com.wesdm.springhibernate.model.Employee;
 /**
  * This class demonstrates using Hibernate's Session Factory to instantiate a Session object which is uses to connect
  * to the database.  THIS IS NOT THE RECOMMENDED APPROACH as it uses Hibernate specific functionality leading to portability
- * issue (this doesn't happen often but still a selling point to use JPA specific functionality only).  See @see EmployeeJpaDaoImpl
+ * issues (this doesn't happen often but still a selling point to use JPA specific functionality only).  See @see EmployeeJpaDaoImpl
  * for the recommended approach.
  * 
  * @author Wesley
@@ -54,17 +54,35 @@ public class EmployeeDaoImpl extends AbstractDao implements EmployeeDao{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public void updateSalaryBySsn(String ssn, BigDecimal salary) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
-	public Employee getReference(int id) {
+	public void save(Employee obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Employee> findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void updateSalaryBySsn(String ssn, BigDecimal salary) {
+	public void delete(long id) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Employee getReference(long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
      
 }

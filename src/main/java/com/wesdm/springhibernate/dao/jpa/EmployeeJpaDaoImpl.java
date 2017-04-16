@@ -30,12 +30,12 @@ public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 	JdbcTemplate jdbcTemplate;
 
 	@Override
-	public void saveEmployee(Employee employee) {
+	public void save(Employee employee) {
 		persist(employee);
 	}
 
 	@Override
-	public List<Employee> findAllEmployees() {
+	public List<Employee> findAll() {
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Employee> cq = cb.createQuery(Employee.class);
 		Root<Employee> rootEntry = cq.from(Employee.class);
@@ -43,10 +43,10 @@ public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 		TypedQuery<Employee> allQuery = getEntityManager().createQuery(all);
 		return allQuery.getResultList();
 	}
-
+	
 	@Override
 	public int deleteEmployeeBySsn(String ssn) {
-		Query query = getEntityManager().createNativeQuery("DELETE FROM Employee e WHERE e.ssn = :ssn");
+		Query query = getEntityManager().createNativeQuery("DELETE FROM Employee e WHERE e.ssn = :ssn"); //won't delete child refs if any exist, must manually do
 		query.setParameter("ssn", ssn);
 		return query.executeUpdate();
 	}
@@ -83,14 +83,18 @@ public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 	}
 
 	@Override
-	public Employee getReference(int id) {
+	public Employee getReference(long id) {
 		return getEntityManager().getReference(Employee.class, id);
 	}
 
 	@Override
-	@Transactional
 	public void updateSalaryBySsn(String ssn, BigDecimal salary) {
 		Employee e = getReference(Integer.valueOf(ssn));
 		e.setSalary(salary);
+	}
+
+	@Override
+	public void delete(long id) {
+		delete(getReference(id));		
 	}
 }

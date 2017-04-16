@@ -8,6 +8,7 @@ import org.joda.time.LocalDate;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.wesdm.springhibernate.dao.EmployeeDao;
+import com.wesdm.springhibernate.dao.jpa.EmployeeJpaDaoImpl;
 import com.wesdm.springhibernate.model.Employee;
 import com.wesdm.springhibernate.model.EmployeeFactory;
 import com.wesdm.springhibernate.service.EmployeeService;
@@ -73,7 +74,8 @@ public class AppMain {
         /*
          * delete an employee
          */
-        service.deleteEmployeeBySsn("ssn00000002");
+        service.delete(employees.get(0).getId());
+        //service.deleteEmployeeBySsn("ssn00000002");
  
         /*
          * update an employee. to associate foreign keys prefer getReference()

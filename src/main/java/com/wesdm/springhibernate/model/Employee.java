@@ -29,7 +29,7 @@ public class Employee {
 			@Parameter(name = "sequence_name", value = "hilo_seqeunce"),
 			@Parameter(name = "initial_value", value = "1"), @Parameter(name = "increment_size", value = "3"),
 			@Parameter(name = "optimizer", value = "hilo") })
-	private int id;
+	private long id;
 
 	@Column(name = "NAME", nullable = false)
 	private String name;
@@ -44,11 +44,11 @@ public class Employee {
 	@Column(name = "SSN", unique = true, nullable = false)
 	private String ssn;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
