@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -24,10 +26,26 @@ import com.wesdm.springhibernate.model.Employee;
 @Repository("employeeJpaDao")
 public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 	
-	//used for lowel level sql, not portable, but more powerful than jpa's entity manager's create (native) query methods
+	//used for lowel level sql, batch updates, not portable, but more powerful than jpa's entity manager's create (native) query methods
 	//need to merge detached object back into persistence context after updating objects with this
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+	
+	/**
+	 * Called after bean constructed
+	 */
+	@PostConstruct
+	public void init(){
+		
+	}
+	
+	/**
+	 * Called before container containing it is closed
+	 */
+	@PreDestroy
+	public void destroy(){
+		
+	}
 
 	@Override
 	public void save(Employee employee) {
