@@ -34,7 +34,7 @@ public class AppMain {
 
 		danceWithDB(service);
 
-		context.close();
+		context.registerShutdownHook();
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class AppMain {
  
 		danceWithDB(service);
  
-        context.close();
+        context.registerShutdownHook();
     }
 
 	private void danceWithDB(EmployeeService service) {

@@ -4,9 +4,16 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -18,17 +25,31 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * Unit Tests use Annotation Configuration approach so I can do both. DONT BOX ME IN! :)
+ * Unit Tests use Annotation Configuration approach so I can do both
  * @author Wesley
  *
  */
 @Configuration		//indicates that the class can be used by the Spring IoC container as a source of bean definitions
-@ComponentScan(basePackages = "com.wesdm.springhibernate")
+@ComponentScan(basePackages = "com.wesdm.springhibernate")		//loads beans @service, @ repository, etc.
+@PropertySource("classpath:dbexample.properties")
 @EnableTransactionManagement
 public class JpaTestConfig {
+	
+	//Gets value from db properties file
+	//if we don’t need profile’s information, we should use @Value annotation
+	@Value("${hibernate.dialect}")
+	private String hibernateDialect;
+	
+	//if we need profile’s information, we should inject Environment from context
+//	@Autowired
+//	private Environment env;
+	
+	static final Logger LOG = LoggerFactory.getLogger(JpaTestConfig.class);
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(){
+    	
+    	LOG.info("F'ING DIALECT = "+hibernateDialect);
 
         LocalContainerEntityManagerFactoryBean lcemfb
             = new LocalContainerEntityManagerFactoryBean();
@@ -41,9 +62,9 @@ public class JpaTestConfig {
         lcemfb.setJpaVendorAdapter(va);
 
         Properties ps = new Properties();
-        ps.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        ps.put("hibernate.dialect", hibernateDialect);
         ps.put("hibernate.hbm2ddl.auto", "create-drop");
-        //ps.put("hibernate.hbm2ddl.auto", "create");
+        //ps.put("hibernate.dialect", env.getProperty("hibernate.dialect"));		//gets property from Environment object
 
         lcemfb.setJpaProperties(ps);
 
@@ -78,10 +99,23 @@ public class JpaTestConfig {
         return tm;
 
     }
-
+    
+    /**
+     * Used to translate HibernateException, PersistenceException, etc. into Spring DataAccessException
+     * @return
+     */
     @Bean
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
         return new PersistenceExceptionTranslationPostProcessor();
     }
+    
+    /**
+     * To resolve ${} in @Value
+     * @return
+     */
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+		return new PropertySourcesPlaceholderConfigurer();
+	}
 
 }
