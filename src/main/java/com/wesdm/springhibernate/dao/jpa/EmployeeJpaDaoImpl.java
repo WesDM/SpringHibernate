@@ -15,6 +15,7 @@ import javax.persistence.criteria.Root;
 
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -23,12 +24,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.wesdm.springhibernate.dao.EmployeeDao;
 import com.wesdm.springhibernate.model.Employee;
 
-@Repository("employeeJpaDao")
+@Repository
+@Qualifier("employeeJpaDao")
 public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 	
-	//used for lowel level sql, batch updates, not portable, but more powerful than jpa's entity manager's create (native) query methods
+	//used for lowel level sql, BATCH UPDATES, not portable, but more powerful than jpa's entity manager's create (native) query methods
 	//need to merge detached object back into persistence context after updating objects with this
-	@Autowired
+	@Autowired(required=true) //required attribute is preferred over @Required, default is true
 	JdbcTemplate jdbcTemplate;
 	
 	/**
