@@ -12,6 +12,7 @@ import com.wesdm.springhibernate.model.Employee;
 
 @Service("employeeService")
 @Transactional				//Mark Services as transcational as opposed to DAOs
+@CoolService				//Custom qualifier example for DI
 public class EmployeeServiceImpl implements EmployeeService{
  
     @Autowired
