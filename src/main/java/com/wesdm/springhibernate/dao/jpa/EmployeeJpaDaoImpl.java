@@ -23,8 +23,7 @@ import org.springframework.stereotype.Repository;
 import com.wesdm.springhibernate.dao.EmployeeDao;
 import com.wesdm.springhibernate.model.Employee;
 
-@Repository
-@Qualifier("employeeJpaDao")
+@Repository("employeeJpaDao")
 public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 	
 	//used for lowel level sql, BATCH UPDATES, not portable, but more powerful than jpa's entity manager's create (native) query methods

@@ -2,8 +2,8 @@ package com.wesdm.springhibernate.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +15,13 @@ import com.wesdm.springhibernate.model.Employee;
 @CoolService				//Custom qualifier example for DI
 public class EmployeeServiceImpl implements EmployeeService{
  
-    @Autowired
-    @Qualifier(value="employeeJpaDao")
+//    @Autowired						matches by type, qualifier, and then name
+//    @Qualifier(value="employeeJpaDao")
+//    private EmployeeDao dao;
+    
+    @Resource(name="employeeJpaDao")  //prefer if injecting by name. resource matches by name, type, and then qualifier
     private EmployeeDao dao;
-     
+    
     public void saveEmployee(Employee employee) {
         dao.save(employee);
     }

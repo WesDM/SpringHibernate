@@ -19,7 +19,7 @@ import com.wesdm.springhibernate.model.EmployeeFactory;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={ JpaTestConfig.class })
-@ActiveProfiles("dev")
+@ActiveProfiles("dev")		//run test with dev profile beans
 public class EmployeeJpaDaoTest {
 	
 	@Autowired

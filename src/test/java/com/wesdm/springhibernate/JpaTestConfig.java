@@ -56,7 +56,7 @@ public class JpaTestConfig {
             = new LocalContainerEntityManagerFactoryBean();
 
         lcemfb.setDataSource(this.dataSource());
-        lcemfb.setPackagesToScan(new String[] {"com.wesdm.springhibernate"});
+        lcemfb.setPackagesToScan(new String[] {"com.wesdm.springhibernate.model"});
         //lcemfb.setPersistenceUnitName("MyTestPU");
 
         HibernateJpaVendorAdapter va = new HibernateJpaVendorAdapter();
@@ -64,7 +64,8 @@ public class JpaTestConfig {
 
         Properties ps = new Properties();
         ps.put("hibernate.dialect", hibernateDialect);
-        ps.put("hibernate.hbm2ddl.auto", "create-drop");
+        ps.put("hibernate.hbm2ddl.auto", "create-drop");							//create tables based on ORM mappings
+        ps.put("hibernate.hbm2ddl.import_files", "sql/testData.sql");				//insert test data
         //ps.put("hibernate.dialect", env.getProperty("hibernate.dialect"));		//gets property from Environment object
 
         lcemfb.setJpaProperties(ps);
@@ -85,7 +86,6 @@ public class JpaTestConfig {
 
     	return new EmbeddedDatabaseBuilder().
                 setType(EmbeddedDatabaseType.H2).
-                addScript("sql/setup.sql").
                 build();
 
     }
