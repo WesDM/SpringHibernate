@@ -26,7 +26,8 @@ import com.wesdm.springhibernate.model.Employee;
 @Repository("employeeJpaDao")
 public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 	
-	//used for lowel level sql, BATCH UPDATES, not portable, but more powerful than jpa's entity manager's create (native) query methods
+	//used for lowel level sql, BATCH UPDATES, not as portable, more boilerplate but more powerful
+	//than jpa's entity manager's create (native) query methods
 	//need to merge detached object back into persistence context after updating objects with this
 	@Autowired(required=true) //required attribute is preferred over @Required, default is true
 	JdbcTemplate jdbcTemplate;
@@ -99,7 +100,10 @@ public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 		System.out.println("JDBCTEMPLATE:  "+actor);
 		return actor;
 	}
-
+	
+	/**
+	 * Lazy Loading
+	 */
 	@Override
 	public Employee getReference(long id) {
 		return getEntityManager().getReference(Employee.class, id);
@@ -110,9 +114,21 @@ public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 		Employee e = getReference(Integer.valueOf(ssn));
 		e.setSalary(salary);
 	}
-
+	
+	/**
+	 * Fetches object before removing.
+	 */
 	@Override
 	public void delete(long id) {
-		delete(getReference(id));		
+		remove(getEntityManager().find(Employee.class, id));		
+	}
+	
+	/**
+	 * Remove object without fetchings
+	 * @param e
+	 */
+	@Override
+	public void delete(Employee e){
+		getEntityManager().remove(e);	//in managed state removes associations
 	}
 }

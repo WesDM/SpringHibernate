@@ -84,5 +84,11 @@ public class EmployeeDaoImpl extends AbstractDao implements EmployeeDao{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void delete(Employee e) {
+		// TODO Auto-generated method stub
+		
+	}
      
 }

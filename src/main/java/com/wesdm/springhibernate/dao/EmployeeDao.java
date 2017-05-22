@@ -17,4 +17,7 @@ public interface EmployeeDao extends BasicDao<Employee> {
 	void updateSalaryBySsn(String ssn, BigDecimal salary);
 
 	Employee findEm();
+	
+	void delete(Employee e);
+
 }

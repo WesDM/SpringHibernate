@@ -6,6 +6,10 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.Session;
 
 public abstract class AbstractJpaDao {
+	
+	/*
+	 * Container managed entity manager (defined in persistenceJPA.xml).  Open and close managed by spring
+	 */
 	@PersistenceContext
     private EntityManager em;
 	
@@ -17,7 +21,7 @@ public abstract class AbstractJpaDao {
 		getEntityManager().persist(obj);
 	}
 	
-	protected void delete(Object obj) {
+	protected void remove(Object obj) {
 		getEntityManager().remove(obj);
 	}
 	

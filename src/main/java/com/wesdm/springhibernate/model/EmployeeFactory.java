@@ -20,7 +20,7 @@ public class EmployeeFactory {
 		 * Create Employee1
 		 */
 		Employee employee = null;
-		for(int i = 0; i < 15; i++) {
+		for(int i = 0; i < 5; i++) {
 			// nextInt is normally exclusive of the top value,
 		    // so add 1 to make it inclusive
 		    int randomNum = rand.nextInt((12 - 1) + 1) + 1;

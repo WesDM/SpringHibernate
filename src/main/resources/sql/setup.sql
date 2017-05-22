@@ -5,6 +5,8 @@ CREATE TABLE EMPLOYEE(
     joining_date DATE NOT NULL,
     salary DOUBLE NOT NULL,
     ssn VARCHAR(30) NOT NULL UNIQUE,
+    created_on DATE NOT NULL,
+    updated_on DATE NOT NULL,
     PRIMARY KEY (id)
 );
 

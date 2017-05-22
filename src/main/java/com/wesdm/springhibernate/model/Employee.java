@@ -1,6 +1,7 @@
 package com.wesdm.springhibernate.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -8,11 +9,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.joda.time.LocalDate;
 
 /**
@@ -26,9 +33,8 @@ public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hilo_sequence_generator")
 	@GenericGenerator(name = "hilo_sequence_generator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
-			@Parameter(name = "sequence_name", value = "hilo_seqeunce"),
-			@Parameter(name = "initial_value", value = "1"), @Parameter(name = "increment_size", value = "3"),
-			@Parameter(name = "optimizer", value = "hilo") })
+			@Parameter(name = "sequence_name", value = "hilo_seqeunce"), @Parameter(name = "initial_value", value = "1"),
+			@Parameter(name = "increment_size", value = "3"), @Parameter(name = "optimizer", value = "hilo") })
 	private long id;
 
 	@Column(name = "NAME", nullable = false)
@@ -43,6 +49,14 @@ public class Employee {
 
 	@Column(name = "SSN", unique = true, nullable = false)
 	private String ssn;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date")
+	private Date created;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "modify_date")
+	private Date updated;
 
 	public long getId() {
 		return id;
@@ -84,14 +98,24 @@ public class Employee {
 		this.ssn = ssn;
 	}
 
+	@PrePersist
+	protected void onCreate() {
+		created = new Date();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updated = new Date();
+	}
+
 	/**
 	 * Generates hash code
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.id, this.ssn);		//compact way to generate hashcode jdk 7+
+		return Objects.hash(this.id, this.ssn); // compact way to generate hashcode jdk 7+
 	}
-	
+
 	/**
 	 * Compares this object to another
 	 */
@@ -102,13 +126,11 @@ public class Employee {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		return Objects.equals(this.id, other.id) &&
-				Objects.equals(this.ssn, other.ssn);	//compact way to generate equals comparison jdk 7+
+		return Objects.equals(this.id, other.id) && Objects.equals(this.ssn, other.ssn); // compact way to generate equals comparison jdk 7+
 	}
 
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", name=" + name + ", joiningDate=" + joiningDate + ", salary=" + salary
-				+ ", ssn=" + ssn + "]";
+		return "Employee [id=" + id + ", name=" + name + ", joiningDate=" + joiningDate + ", salary=" + salary + ", ssn=" + ssn + "]";
 	}
 }
