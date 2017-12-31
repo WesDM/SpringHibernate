@@ -10,14 +10,14 @@ public interface EmployeeDao extends BasicDao<Employee> {
 
 	Employee findBySsn(String ssn);
 
-	Employee getReference(long id);
-
-	void updateEmployee(Employee employee);
+	Employee getReference(Long id);
 	
-	void updateSalaryBySsn(String ssn, BigDecimal salary);
+	void updateSalary(Long id, BigDecimal salary);
 
 	Employee findEm();
 	
 	void delete(Employee e);
+
+	void updateEmployee(Employee employee);
 
 }

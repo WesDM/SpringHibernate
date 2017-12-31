@@ -56,7 +56,7 @@ public class EmployeeDaoImpl extends AbstractDao implements EmployeeDao{
 	}
 	
 	@Override
-	public void updateSalaryBySsn(String ssn, BigDecimal salary) {
+	public void updateSalary(Long id, BigDecimal salary) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -74,13 +74,13 @@ public class EmployeeDaoImpl extends AbstractDao implements EmployeeDao{
 	}
 
 	@Override
-	public void delete(long id) {
+	public void delete(Long id) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Employee getReference(long id) {
+	public Employee getReference(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

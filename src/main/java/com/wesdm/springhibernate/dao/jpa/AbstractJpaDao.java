@@ -9,6 +9,8 @@ public abstract class AbstractJpaDao {
 	
 	/*
 	 * Container managed entity manager (defined in persistenceJPA.xml).  Open and close managed by spring
+	 * 
+	 * per JPA specifications EntityManager instances are not thread safe, but if Spring handles them, they are made thread safe
 	 */
 	@PersistenceContext
     private EntityManager em;
@@ -18,14 +20,14 @@ public abstract class AbstractJpaDao {
 	}
 	
 	protected void persist(Object obj){
-		getEntityManager().persist(obj);
+		em.persist(obj);
 	}
 	
 	protected void remove(Object obj) {
-		getEntityManager().remove(obj);
+		em.remove(obj);
 	}
 	
 	protected Session getSession() {
-		return getEntityManager().unwrap(Session.class);
+		return em.unwrap(Session.class);
 	}
 }

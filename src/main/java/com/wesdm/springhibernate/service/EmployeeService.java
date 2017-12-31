@@ -15,7 +15,7 @@ public interface EmployeeService {
  
     Employee findBySsn(String ssn);
     
-    Employee getReference(int id);
+    Employee getReference(Long id);
     
     void updateEmployee(Employee employee);
     

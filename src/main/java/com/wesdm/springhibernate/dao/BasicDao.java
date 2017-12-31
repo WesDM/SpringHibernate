@@ -7,5 +7,5 @@ public interface BasicDao<T> {
 
 	List<T> findAll();
 	
-	void delete(long id);
+	void delete(Long id);
 }

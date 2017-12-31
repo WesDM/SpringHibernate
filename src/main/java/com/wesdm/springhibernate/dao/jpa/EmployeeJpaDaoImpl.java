@@ -13,14 +13,16 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Restrictions;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.wesdm.springhibernate.dao.EmployeeDao;
+import com.wesdm.springhibernate.model.Company;
 import com.wesdm.springhibernate.model.Employee;
 
 @Repository("employeeJpaDao")
@@ -47,6 +49,21 @@ public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 	public void destroy(){
 		
 	}
+	
+//	select * 
+//	from ( select a.*, rownum rnum 
+//	from ( YOUR_QUERY_GOES_HERE -- including the order by ) a 
+//	where rownum <= MAX_ROWS ) 
+//	where rnum >= MIN_ROWS 
+	
+//	select *
+//	from 
+//	    (select count(course) as pcourse
+//	        , course
+//	    from studies
+//	    group by course
+//	    order by pcourse desc) result_set
+//	where rownum = 1
 
 	@Override
 	public void save(Employee employee) {
@@ -55,6 +72,12 @@ public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 
 	@Override
 	public List<Employee> findAll() {
+		List cats = getSession().createCriteria(Company.class)		//Hibernate Criteria API (considered deprecated)
+			    .add( Restrictions.like("name", "Fritz%") )
+			    .setFetchMode("mate", FetchMode.SELECT)
+			    .setFetchMode("kittens", FetchMode.SELECT)
+			    .list();
+		
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Employee> cq = cb.createQuery(Employee.class);
 		Root<Employee> rootEntry = cq.from(Employee.class);
@@ -77,6 +100,7 @@ public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 		return query.getSingleResult();
 	}
 
+	// merging is used for detached entities
 	@Override
 	public void updateEmployee(Employee employee) {
 		getEntityManager().merge(employee);
@@ -101,25 +125,23 @@ public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 		return actor;
 	}
 	
-	/**
-	 * Lazy Loading
-	 */
+
 	@Override
-	public Employee getReference(long id) {
+	public Employee getReference(Long id) {
 		return getEntityManager().getReference(Employee.class, id);
 	}
 
 	@Override
-	public void updateSalaryBySsn(String ssn, BigDecimal salary) {
-		Employee e = getReference(Integer.valueOf(ssn));
+	public void updateSalary(Long id, BigDecimal salary) {
+		Employee e = getEntityManager().find(Employee.class, id);//getReference(Integer.valueOf(ssn));
 		e.setSalary(salary);
 	}
 	
 	/**
-	 * Fetches object before removing.
+	 * Fetches object before removing.  Cascades.
 	 */
 	@Override
-	public void delete(long id) {
+	public void delete(Long id) {
 		remove(getEntityManager().find(Employee.class, id));		
 	}
 	

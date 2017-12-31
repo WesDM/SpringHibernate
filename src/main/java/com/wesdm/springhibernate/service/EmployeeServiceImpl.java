@@ -49,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public Employee getReference(int id) {
+	public Employee getReference(Long id) {
 		return dao.getReference(id);
 	}
 
