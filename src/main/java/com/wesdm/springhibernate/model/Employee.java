@@ -55,12 +55,12 @@ public class Employee {
 	@org.hibernate.annotations.NaturalId
 	private String ssn;
 
-	private Address homeAddress;
-
-	@AttributeOverrides({ @AttributeOverride(name = "street", column = @Column(name = "BILLING_STREET")),
-			@AttributeOverride(name = "zipcode", column = @Column(name = "BILLING_ZIPCODE", length = 5)),
-			@AttributeOverride(name = "city", column = @Column(name = "BILLING_CITY")) })
-	protected Address billingAddress;
+//	private Address homeAddress;
+//
+//	@AttributeOverrides({ @AttributeOverride(name = "street", column = @Column(name = "BILLING_STREET")),
+//			@AttributeOverride(name = "zipcode", column = @Column(name = "BILLING_ZIPCODE", length = 5)),
+//			@AttributeOverride(name = "city", column = @Column(name = "BILLING_CITY")) })
+//	protected Address billingAddress;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATED_ON", updatable = false)
@@ -72,9 +72,9 @@ public class Employee {
 	@org.hibernate.annotations.UpdateTimestamp
 	private Date updated;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "COMPANY_ID")  //Foreign Key
-	private Company company;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "COMPANY_ID")  //Foreign Key
+//	private Company company;
 
 	public Long getId() {
 		return id;
@@ -116,28 +116,28 @@ public class Employee {
 		this.ssn = ssn;
 	}
 
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
-	}
-	
-	public Address getBillingAddress() {
-		return billingAddress;
-	}
-
-	public Address getHomeAddress() {
-		return homeAddress;
-	}
-
-	public void setHomeAddress(Address homeAddress) {
-		this.homeAddress = homeAddress;
-	}
+//	public Company getCompany() {
+//		return company;
+//	}
+//
+//	public void setCompany(Company company) {
+//		this.company = company;
+//	}
+//	
+//	public Address getBillingAddress() {
+//		return billingAddress;
+//	}
+//
+//	public Address getHomeAddress() {
+//		return homeAddress;
+//	}
+//
+//	public void setHomeAddress(Address homeAddress) {
+//		this.homeAddress = homeAddress;
+//	}
 
 	/*
-	 * Since instances of employee will be added to a set, must implement equals and hashcode
+	 * Since instances of employee will be added to a set in detached state, must implement equals and hashcode
 	 */
 
 	/**

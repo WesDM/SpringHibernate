@@ -22,7 +22,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.wesdm.springhibernate.dao.EmployeeDao;
-import com.wesdm.springhibernate.model.Company;
 import com.wesdm.springhibernate.model.Employee;
 
 @Repository("employeeJpaDao")
@@ -72,7 +71,7 @@ public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 
 	@Override
 	public List<Employee> findAll() {
-		List cats = getSession().createCriteria(Company.class)		//Hibernate Criteria API (considered deprecated)
+		List cats = getSession().createCriteria(Employee.class)		//Hibernate Criteria API (considered deprecated)
 			    .add( Restrictions.like("name", "Fritz%") )
 			    .setFetchMode("mate", FetchMode.SELECT)
 			    .setFetchMode("kittens", FetchMode.SELECT)
@@ -88,7 +87,7 @@ public class EmployeeJpaDaoImpl extends AbstractJpaDao implements EmployeeDao {
 	
 	@Override
 	public int deleteEmployeeBySsn(String ssn) {
-		Query query = getEntityManager().createNativeQuery("DELETE FROM Employee e WHERE e.ssn = :ssn"); //won't delete child refs if any exist, must manually do
+		Query query = getEntityManager().createNativeQuery("DELETE FROM Employee e WHERE e.ssn = :ssn"); //won't delete child refs if any exist, must manually do unless cascade del on col
 		query.setParameter("ssn", ssn);
 		return query.executeUpdate();
 	}
